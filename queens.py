@@ -1,19 +1,13 @@
 import sys
-
-N = 8
-if len(sys.argv) > 1: N = int(sys.argv[1])
+import time
 
 def create_chessboard(N):
     return [[" □ " for j in range(N)] for i in range(N)]
 
 def print_chessboard(chessboard):
     n = len(chessboard)
-    print("   ", end="")
-    [print(" %d " % i, end="") for i in range(n)]
-    print(end="\n")
 
     for i in range(n):
-        print(" %d " % (i), end="")
         for j in range(n):
             print(chessboard[i][j], end="")
         print(end="\n")
@@ -39,21 +33,33 @@ def n_queens(queens, row, sols):
         if not collision:
             queens[row] = col
             n_queens(queens, row + 1, sols)
-            queens[row] = -1 
+            queens[row] = -1
 
 if __name__ == "__main__":
-    chessboard = create_chessboard(N)
-    queens = [-1 for i in range(N)]
-    sols = []
+    print("N-QUEENS PROBLEM", end="\n\n")
 
-    n_queens(queens, 0, sols)
+    N = 8
 
-    print('N-QUEENS PROBLEM')
-    print('Board size: %d' % N)
-    print('Total solutions:', len(sols))
-    print('First solution:')
+    while(True):
+        print("Board size: %d" % N)
+        chessboard = create_chessboard(N)
+        queens = [-1 for i in range(N)]
+        sols = []
 
-    for index, queen in enumerate(sols[0]):
-        set_queen(index, queen)
+        start = time.time()
+        n_queens(queens, 0, sols)
+        end = time.time()
 
-    print_chessboard(chessboard)
+        print("Total solutions:", len(sols))
+        print("Time elapsed", end - start, end="\n")
+
+        for index, queen in enumerate(sols[0]):
+            set_queen(index, queen)
+
+        print_chessboard(chessboard)
+        N += 1
+
+        print(end="\n")
+        input("Press Enter to continue...")
+        print(end="\n")
+        
